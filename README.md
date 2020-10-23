@@ -14,7 +14,7 @@ The sparcity of each network can be selected at initialization.
 
 Random Implementation.
 
-![image](https://drive.google.com/uc?export=view&id=1rRZFbXCOgvP8MsVpADM99dyw7_ryga1X)
+![image1](https://drive.google.com/uc?export=view&id=1rRZFbXCOgvP8MsVpADM99dyw7_ryga1X)
 
 Cluster Implementation.
 
