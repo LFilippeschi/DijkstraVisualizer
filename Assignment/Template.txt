@@ -1,0 +1,28 @@
+
+/*=============================================================================
+ |   Assignment:  ASSIGNMENT 
+ |
+ |       Author:  Leonardo Filippeschi
+ |       Contac:  lfil@kth.se
+ |
+ |      Created:  28.08.2020
+ |  Last edited:  28.08.2020
+ |
+ |        Class:  ID1020 HT2020 - ALgorithms and Data Structures 
+ |
+ |   Instructor:  Robert Rönngren
+ |
+ +-----------------------------------------------------------------------------
+ |
+ |  Description:  DESCRIBE THE PROBLEM THAT THIS PROGRAM WAS WRITTEN TO
+ |      SOLVE.
+ |
+ |        Input:  DESCRIBE THE INPUT THAT THE PROGRAM REQUIRES.
+ |
+ |       Output:  DESCRIBE THE OUTPUT THAT THE PROGRAM PRODUCES.
+ |
+ |    Algorithm:  OUTLINE THE APPROACH USED BY THE PROGRAM TO SOLVE THE
+ |      PROBLEM.
+ |
+ |
+ *===========================================================================*/

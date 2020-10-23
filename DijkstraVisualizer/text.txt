@@ -1,0 +1,149 @@
+package DijkstarVisualizer;
+
+import java.awt.Point;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.Scanner;
+import java.awt.*;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import Assignment.Assignment3a.SingleLinkedList;
+import Lab4.Lab4Graphs;
+import Lab4.Lab4Graphs.DirectedEdge;
+import Lab4.Lab4Graphs.WeightedEdgeDirectedGraph;
+
+public class DijkstraVisualize { // window 800,800
+
+    public static final int myHEIGHT = 1000;
+    public static final int myWIDTH = 1600;
+
+    @SuppressWarnings("serial")
+    public static class Window extends JPanel {
+        private Point[] vertices;
+        private LinkedList<Integer> x;
+        private LinkedList<Integer> y;
+        private boolean[][] pointAt = new boolean[myWIDTH][myHEIGHT]; // tells me if the spot is used
+        private HashMap<Integer, Point> map; // connects index to a point so that i can use it with a shortest path algo
+        private WeightedEdgeDirectedGraph graph;
+        private int N;
+        private int V;
+
+        public Window() {
+            map = new HashMap<Integer, Point>();
+            x = new LinkedList<Integer>();
+            y = new LinkedList<Integer>();
+            for (int i = 0; i < myWIDTH; i++)
+                x.add(i);
+            for (int i = 0; i < myHEIGHT; i++)
+                y.add(i);
+            // populate();
+            // repaint();
+        }
+
+        public void populate() {
+            Random r = new Random(System.currentTimeMillis());
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Insert number of vertices");
+            int NumVertices = sc.nextInt();
+            V = NumVertices;
+            int i = 0;
+            while (!x.isEmpty() && !y.isEmpty() && i < NumVertices) {
+                int choice = (i + r.nextInt(5)) % x.size();
+                if (choice == 0)
+                    choice = 1;
+                int xx = r.nextInt(choice); // select a random index from the x list where i keep
+                                            // the indeces of the
+                // screen
+                choice = (i + r.nextInt(5)) % y.size();
+                if (choice == 0)
+                    choice = 1;
+                int yy = r.nextInt(choice);
+                pointAt[xx][yy] = true;
+                N++;
+                map.put(i, new Point(x.remove(xx), y.remove(yy))); // point i will be unique
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException iox) {
+                }
+                repaint();
+                i++;
+            }
+        }
+
+        public void paint(Graphics g) {
+            for (int i = 0; i < map.size(); i++) {
+                Point tmp = map.get(i);
+                g.setColor(Color.GREEN);
+                g.fillOval((int) tmp.getX(), (int) tmp.getY(), 8, 8);
+            }
+            for (int i = 0; i < map.size(); i++) {
+                Point tmp = map.get(i);
+                if (graph == null)
+                    return;
+                if (graph.adj(i) == null)
+                    return;
+                for (Object e : graph.adj(i)) { // singlelinked list of edges from i
+                    g.setColor(Color.gray);
+                    Point tmp2 = map.get(((DirectedEdge) e).to());
+                    g.drawLine((int) tmp.getX() + 4, (int) tmp.getY() + 4, (int) tmp2.getX() + 4,
+                            (int) tmp2.getY() + 4);
+                }
+            }
+        }
+
+        public int N() {
+            return N;
+        }
+
+        public int V() {
+            return V;
+        }
+
+        public void createGraph() {
+            Random r = new Random(System.currentTimeMillis());
+            graph = new WeightedEdgeDirectedGraph(N());
+            for (int i = 0; i < V(); i++) {
+                int index = r.nextInt(map.size());
+                int choice = (index + r.nextInt(2)) % map.size(); // select close by elements
+                if (choice == 0)
+                    choice = 1;
+                int index2 = r.nextInt(choice);
+                Point pt = map.get(index);
+                while (index2 == index) {
+                    choice = (index + r.nextInt(2)) % map.size(); // select close by elements
+                    if (choice == 0)
+                        choice = 1;
+                    index2 = r.nextInt(choice);
+                }
+                Point pt2 = map.get(index2);
+                graph.addEdge(new DirectedEdge(index, index2, pt.distance(pt2))); // i need two points randomly selected
+                graph.addEdge(new DirectedEdge(index2, index, pt2.distance(pt)));
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException iox) {
+                }
+                repaint();
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Dijkstra visualizer");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBackground(Color.DARK_GRAY);
+        frame.setSize(myWIDTH + 10, myHEIGHT + 80);
+        // frame.setResizable(false);
+        Window w = new Window();
+        frame.add(w);
+        frame.setVisible(true);
+
+        w.populate();
+        w.createGraph();
+        // w.repaint();
+
+    }
+}
